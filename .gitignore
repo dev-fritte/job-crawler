@@ -1,0 +1,8 @@
+
+# Folders
+kurs/
+node_modules/
+
+# Binaries
+*.exe
+
