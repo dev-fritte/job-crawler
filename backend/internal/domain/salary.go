@@ -42,3 +42,7 @@ var salaryPeriods = []SalaryPeriod{
 func (p SalaryPeriod) Valid() bool {
 	return slices.Contains(salaryPeriods, p)
 }
+
+func (s Salary) IsRange() bool {
+	return s.Min != 0 && s.Max != 0 && s.Min != s.Max
+}

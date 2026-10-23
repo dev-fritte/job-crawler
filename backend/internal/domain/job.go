@@ -94,7 +94,3 @@ func (j Job) HasTag(tag string) bool {
 
 	return slices.Contains(j.Tags, tag)
 }
-
-func (s Salary) IsRange() bool {
-	return s.Min != 0 && s.Max != 0 && s.Min != s.Max
-}
