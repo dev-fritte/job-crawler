@@ -18,7 +18,7 @@ const (
 	EmploymentTypeOther          EmploymentType = "other"
 )
 
-var EmploymentTypes = []EmploymentType{
+var employmentTypes = []EmploymentType{
 	EmploymentTypeFullTime,
 	EmploymentTypePartTime,
 	EmploymentTypeWorkingStudent,
@@ -29,7 +29,7 @@ var EmploymentTypes = []EmploymentType{
 }
 
 func (e EmploymentType) Valid() bool {
-	return slices.Contains(EmploymentTypes, e)
+	return slices.Contains(employmentTypes, e)
 }
 
 type ContractType string
@@ -39,13 +39,13 @@ const (
 	ContractTypeFixedTerm ContractType = "fixed_term"
 )
 
-var ContractTypes = []ContractType{
+var contractTypes = []ContractType{
 	ContractTypePermanent,
 	ContractTypeFixedTerm,
 }
 
 func (c ContractType) Valid() bool {
-	return slices.Contains(ContractTypes, c)
+	return slices.Contains(contractTypes, c)
 }
 
 type RemoteMode string
@@ -56,30 +56,32 @@ const (
 	RemoteModeRemote RemoteMode = "remote"
 )
 
-var RemoteModes = []RemoteMode{
+var remoteModes = []RemoteMode{
 	RemoteModeOnsite,
 	RemoteModeHybrid,
 	RemoteModeRemote,
 }
 
 func (r RemoteMode) Valid() bool {
-	return slices.Contains(RemoteModes, r)
+	return slices.Contains(remoteModes, r)
 }
 
 var remoteAliases = map[string]RemoteMode{
 	"on-site":    RemoteModeOnsite,
 	"on site":    RemoteModeOnsite,
 	"vor ort":    RemoteModeOnsite,
-	"hybrid":     RemoteModeHybrid,
 	"hybride":    RemoteModeHybrid,
-	"remote":     RemoteModeRemote,
 	"homeoffice": RemoteModeRemote,
 }
 
 func ParseRemoteMode(s string) (RemoteMode, error) {
-	s = strings.ToLower(strings.TrimSpace(s))
+	normalizedString := strings.ToLower(strings.TrimSpace(s))
 
-	if mode, ok := remoteAliases[s]; ok {
+	if remoteMode := RemoteMode(normalizedString); remoteMode.Valid() {
+		return remoteMode, nil
+	}
+
+	if mode, ok := remoteAliases[normalizedString]; ok {
 		return mode, nil
 	}
 
@@ -96,7 +98,7 @@ const (
 	SeniorityLevelPrincipal SeniorityLevel = "principal"
 )
 
-var SeniorityLevels = []SeniorityLevel{
+var seniorityLevels = []SeniorityLevel{
 	SeniorityLevelJunior,
 	SeniorityLevelMid,
 	SeniorityLevelSenior,
@@ -105,23 +107,5 @@ var SeniorityLevels = []SeniorityLevel{
 }
 
 func (s SeniorityLevel) Valid() bool {
-	return slices.Contains(SeniorityLevels, s)
-}
-
-type SalaryPeriod string
-
-const (
-	SalaryPeriodHourly  SalaryPeriod = "hourly"
-	SalaryPeriodMonthly SalaryPeriod = "monthly"
-	SalaryPeriodYearly  SalaryPeriod = "yearly"
-)
-
-var SalaryPeriods = []SalaryPeriod{
-	SalaryPeriodHourly,
-	SalaryPeriodMonthly,
-	SalaryPeriodYearly,
-}
-
-func (p SalaryPeriod) Valid() bool {
-	return slices.Contains(SalaryPeriods, p)
+	return slices.Contains(seniorityLevels, s)
 }
