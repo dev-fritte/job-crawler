@@ -55,6 +55,18 @@ func (j Job) Validate() error {
 		errs = errors.Join(errs, fmt.Errorf("invalid language: %s", j.Language))
 	}
 
+	if j.RemoteMode != nil && !j.RemoteMode.Valid() {
+		errs = errors.Join(errs, fmt.Errorf("invalid remote mode: %s", *j.RemoteMode))
+	}
+
+	if j.SeniorityLevel != nil && !j.SeniorityLevel.Valid() {
+		errs = errors.Join(errs, fmt.Errorf("invalid seniority level: %s", *j.SeniorityLevel))
+	}
+
+	if j.Salary != nil && !j.Salary.Currency.Valid() {
+		errs = errors.Join(errs, fmt.Errorf("invalid salary currency: %s", j.Salary.Currency))
+	}
+
 	return errs
 }
 
