@@ -15,7 +15,6 @@ const (
 	EmploymentTypeInternship     EmploymentType = "internship"
 	EmploymentTypeApprenticeship EmploymentType = "apprenticeship"
 	EmploymentTypeFreelance      EmploymentType = "freelance"
-	EmploymentTypeOther          EmploymentType = "other"
 )
 
 var employmentTypes = []EmploymentType{
@@ -25,7 +24,6 @@ var employmentTypes = []EmploymentType{
 	EmploymentTypeInternship,
 	EmploymentTypeApprenticeship,
 	EmploymentTypeFreelance,
-	EmploymentTypeOther,
 }
 
 func (e EmploymentType) Valid() bool {

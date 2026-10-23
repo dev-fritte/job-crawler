@@ -1,12 +1,88 @@
 package domain
 
+import (
+	"errors"
+	"fmt"
+	"slices"
+	"strings"
+	"time"
+)
+
 type Job struct {
-	ID          string
-	Title       string
-	Description string
-	Company     Company
-	URL         string
-	Source      string
-	ExternalID  string
-	Language    Language
+	ExternalID      string
+	Source          string
+	URL             string
+	Title           string
+	Description     string
+	Company         Company
+	Language        Language
+	Salary          *Salary
+	RemoteMode      *RemoteMode
+	Locations       []Location
+	EmploymentTypes []EmploymentType
+	Contact         string
+	SeniorityLevel  *SeniorityLevel
+	PostedAt        *time.Time
+	ValidThrough    *time.Time
+	Tags            []string
+}
+
+func (j Job) Validate() error {
+
+	var errs error
+
+	if j.ExternalID == "" {
+		errs = errors.Join(errs, errors.New("external ID is required"))
+	}
+
+	if j.Source == "" {
+		errs = errors.Join(errs, errors.New("source is required"))
+	}
+
+	if j.URL == "" {
+		errs = errors.Join(errs, errors.New("URL is required"))
+	}
+
+	if j.Title == "" {
+		errs = errors.Join(errs, errors.New("title is required"))
+	}
+
+	if j.Company.Name == "" {
+		errs = errors.Join(errs, errors.New("company is required"))
+	}
+
+	if j.Language != "" && !j.Language.Valid() {
+		errs = errors.Join(errs, fmt.Errorf("invalid language: %s", j.Language))
+	}
+
+	return errs
+}
+
+func (j *Job) AddTag(tag string) {
+
+	tag = strings.ToLower(strings.TrimSpace(tag))
+
+	if tag == "" {
+		return
+	}
+
+	if j.HasTag(tag) {
+		return
+	}
+
+	j.Tags = append(j.Tags, tag)
+}
+
+func (j Job) HasTag(tag string) bool {
+	if j.Tags == nil {
+		return false
+	}
+
+	tag = strings.ToLower(strings.TrimSpace(tag))
+
+	return slices.Contains(j.Tags, tag)
+}
+
+func (s Salary) IsRange() bool {
+	return s.Min != nil && s.Max != nil && *s.Min != *s.Max
 }

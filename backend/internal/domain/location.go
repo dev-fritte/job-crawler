@@ -1,5 +1,7 @@
 package domain
 
+import "slices"
+
 type Location struct {
 	Label      string
 	PostalCode string
@@ -13,7 +15,17 @@ type Location struct {
 type Country string
 
 var (
-	CountryDE = "DE"
-	CountryAT = "AT"
-	CountryCH = "CH"
+	CountryDE Country = "DE"
+	CountryAT Country = "AT"
+	CountryCH Country = "CH"
 )
+
+var Countries = []Country{
+	CountryDE,
+	CountryAT,
+	CountryCH,
+}
+
+func (c Country) Valid() bool {
+	return slices.Contains(Countries, c)
+}
