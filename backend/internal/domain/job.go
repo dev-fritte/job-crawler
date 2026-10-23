@@ -20,7 +20,7 @@ type Job struct {
 	RemoteMode      *RemoteMode
 	Locations       []Location
 	EmploymentTypes []EmploymentType
-	Contact         string
+	Contract        ContractType
 	SeniorityLevel  *SeniorityLevel
 	PostedAt        *time.Time
 	ValidThrough    *time.Time
@@ -84,5 +84,5 @@ func (j Job) HasTag(tag string) bool {
 }
 
 func (s Salary) IsRange() bool {
-	return s.Min != nil && s.Max != nil && *s.Min != *s.Max
+	return s.Min != 0 && s.Max != 0 && s.Min != s.Max
 }

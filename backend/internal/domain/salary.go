@@ -3,8 +3,8 @@ package domain
 import "slices"
 
 type Salary struct {
-	Min      *int
-	Max      *int
+	Min      int
+	Max      int
 	Currency Currency
 	Period   SalaryPeriod
 }
@@ -12,17 +12,17 @@ type Salary struct {
 type Currency string
 
 const (
-	CurrencyEUR = "EUR"
-	CurrencyCHF = "CHF"
+	CurrencyEUR Currency = "EUR"
+	CurrencyCHF Currency = "CHF"
 )
 
-var Currencies = []Currency{
+var currencies = []Currency{
 	CurrencyEUR,
 	CurrencyCHF,
 }
 
 func (c Currency) Valid() bool {
-	return slices.Contains(Currencies, c)
+	return slices.Contains(currencies, c)
 }
 
 type SalaryPeriod string
@@ -33,12 +33,12 @@ const (
 	SalaryPeriodYearly  SalaryPeriod = "yearly"
 )
 
-var SalaryPeriods = []SalaryPeriod{
+var salaryPeriods = []SalaryPeriod{
 	SalaryPeriodHourly,
 	SalaryPeriodMonthly,
 	SalaryPeriodYearly,
 }
 
 func (p SalaryPeriod) Valid() bool {
-	return slices.Contains(SalaryPeriods, p)
+	return slices.Contains(salaryPeriods, p)
 }
