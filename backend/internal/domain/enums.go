@@ -1,6 +1,10 @@
 package domain
 
-import "slices"
+import (
+	"fmt"
+	"slices"
+	"strings"
+)
 
 type EmploymentType string
 
@@ -60,6 +64,26 @@ var RemoteModes = []RemoteMode{
 
 func (r RemoteMode) Valid() bool {
 	return slices.Contains(RemoteModes, r)
+}
+
+var remoteAliases = map[string]RemoteMode{
+	"on-site":    RemoteModeOnsite,
+	"on site":    RemoteModeOnsite,
+	"vor ort":    RemoteModeOnsite,
+	"hybrid":     RemoteModeHybrid,
+	"hybride":    RemoteModeHybrid,
+	"remote":     RemoteModeRemote,
+	"homeoffice": RemoteModeRemote,
+}
+
+func ParseRemoteMode(s string) (RemoteMode, error) {
+	s = strings.ToLower(strings.TrimSpace(s))
+
+	if mode, ok := remoteAliases[s]; ok {
+		return mode, nil
+	}
+
+	return "", fmt.Errorf("invalid remote mode: %q", s)
 }
 
 type SeniorityLevel string
